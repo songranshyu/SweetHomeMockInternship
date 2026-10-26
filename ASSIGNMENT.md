@@ -1,4 +1,4 @@
-# Internship tasks
+[//]: # (# Internship tasks)
 
 Work through the tasks in order. English-only UI updates are sufficient.
 
