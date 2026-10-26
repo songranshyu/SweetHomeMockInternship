@@ -8,17 +8,15 @@ assignees: ''
 
 ## Goal
 
-Summarize the user-facing result in one or two sentences.
+Letting the user edit furniture descriptions
 
 ## Acceptance checklist
 
-- [ ] I reproduced or located the current behavior.
-- [ ] I made a focused source change.
-- [ ] The smoke test still passes.
-- [ ] The relevant feature tests pass.
-- [ ] I manually checked the behavior in the application.
-- [ ] I added the required file under `submissions/`.
+- [X] I reproduced or located the current behavior.
+- [X] I made a focused source change.
+- [X] The smoke test still passes.
+- [X] The relevant feature tests pass.
+- [X] I manually checked the behavior in the application.
+- [X] I added the required file under `submissions/`.
 
 ## Notes
-
-Record useful files, design decisions, or follow-up work here.

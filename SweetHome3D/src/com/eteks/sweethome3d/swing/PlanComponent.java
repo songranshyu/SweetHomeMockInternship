@@ -210,6 +210,7 @@ import com.sun.j3d.utils.universe.ViewingPlatform;
  * @author Emmanuel Puybaret
  */
 public class PlanComponent extends JComponent implements PlanView, Scrollable, Printable {
+public class PlanComponent extends JComponent implements PlanView, Scrollable, Printable {
   /**
    * The circumstances under which the home items displayed by this component will be painted. 
    */
