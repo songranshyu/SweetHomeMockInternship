@@ -83,4 +83,8 @@ public class HomeFrameController implements Controller {
   public void displayView() {
     ((HomeFramePane)getView()).displayView();
   }
+
+  /**
+   * Displays the view controlled
+   */
 }

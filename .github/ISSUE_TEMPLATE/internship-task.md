@@ -1,7 +1,7 @@
 ---
 name: Internship task
 about: Track one Sweet Home 3D maintenance task
-title: "[Task N] "
+title: "[Task 2] "
 labels: ''
 assignees: ''
 ---
