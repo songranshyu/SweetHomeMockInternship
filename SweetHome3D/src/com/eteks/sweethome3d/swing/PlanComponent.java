@@ -129,7 +129,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-import javax.swing.JApplet;
+//import javax.swing.JApplet;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -209,7 +209,6 @@ import com.sun.j3d.utils.universe.ViewingPlatform;
  * A component displaying the plan of a home.
  * @author Emmanuel Puybaret
  */
-public class PlanComponent extends JComponent implements PlanView, Scrollable, Printable {
 public class PlanComponent extends JComponent implements PlanView, Scrollable, Printable {
   /**
    * The circumstances under which the home items displayed by this component will be painted. 
@@ -2009,7 +2008,24 @@ public class PlanComponent extends JComponent implements PlanView, Scrollable, P
    * that makes it fill <code>pageFormat</code> imageable size if this attribute is <code>null</code>.
    */
   public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-    List<Selectable> printedItems = getPaintedItems(); 
+    if (pageIndex < 0) {
+      return NO_SUCH_PAGE;
+    }
+
+    List<Level> viewLevels = new ArrayList<>();
+    for (Level level: home.getLevels()) {
+      if (level.isViewable()) {
+        viewLevels.add(level);
+      }
+    }
+    Level oldLevel = this.home.getSelectedLevel();
+    if (!viewLevels.isEmpty()) {
+      if (pageIndex >= viewLevels.size()) {
+        return NO_SUCH_PAGE;
+      }
+      this.home.setSelectedLevel(viewLevels.get(pageIndex));
+    }
+    List<Selectable> printedItems = getPaintedItems();
     Rectangle2D printedItemBounds = getItemsBounds(g, printedItems);
     if (printedItemBounds != null) {
       double imageableX = pageFormat.getImageableX();
@@ -2024,7 +2040,7 @@ public class PlanComponent extends JComponent implements PlanView, Scrollable, P
       if (this.home.getPrint() == null || this.home.getPrint().getPlanScale() == null) {
         // Compute a scale that ensures the plan will fill the component if plan scale is null
         printScale = getPrintPreferredScale(g, pageFormat) * LengthUnit.centimeterToInch(72);
-        if (pageIndex > 0) {
+        if (pageIndex < 0) {
           return NO_SUCH_PAGE;
         }
         pagesPerRow = 1;
@@ -2043,6 +2059,7 @@ public class PlanComponent extends JComponent implements PlanView, Scrollable, P
           pagesPerColumn++;
         }
         if (pageIndex >= pagesPerRow * pagesPerColumn) {
+          this.home.setSelectedLevel(oldLevel);
           return NO_SUCH_PAGE;
         }
         rowIndex = pageIndex / pagesPerRow;
@@ -2070,8 +2087,10 @@ public class PlanComponent extends JComponent implements PlanView, Scrollable, P
         // Ignore exception because it may happen only in EXPORT paint mode 
       }   
       g2D.dispose();
+      this.home.setSelectedLevel(oldLevel);
       return PAGE_EXISTS;
     } else {
+      this.home.setSelectedLevel(oldLevel);
       return NO_SUCH_PAGE;
     }
   }
@@ -5376,7 +5395,8 @@ public class PlanComponent extends JComponent implements PlanView, Scrollable, P
     // (except in Applets run with Java 7 under Mac OS X where the tooltips are buggy)
     this.toolTipWindow.setVisible(!OperatingSystem.isMacOSX()
         || !OperatingSystem.isJavaVersionGreaterOrEqual("1.7")
-        || SwingUtilities.getAncestorOfClass(JApplet.class, this) == null);
+        || true);
+        //|| SwingUtilities.getAncestorOfClass(JApplet.class, this) == null);
     toolTipComponent.paintImmediately(toolTipComponent.getBounds());
   }
   
